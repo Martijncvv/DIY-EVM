@@ -1,5 +1,7 @@
 # EVM From Scratch
 
+Exercise to build an EVM in Javascript
+
 ![EVM From Scratch](.github/logo.png)
 
 Welcome to **EVM From Scratch**! It's a 100% practical course that will help you better understand the inner workings of the Ethereum Virtual Machine. During this course, we'll implement EVM in your favorite programming language.
