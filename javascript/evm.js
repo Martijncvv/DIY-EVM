@@ -12,6 +12,7 @@
  */
 
 function evm(code) {
+	console.log('\n')
 	// console.log('CODE_INPUT: ', code)
 
 	let pc = 0
@@ -20,7 +21,7 @@ function evm(code) {
 
 	while (pc < code.length) {
 		let opcode = code[pc].toString(16)
-		// console.log('opcode: ', opcode)
+		console.log('OPCODE23: ', opcode)
 
 		pc++
 		switch (true) {
@@ -67,6 +68,25 @@ function evm(code) {
 				}
 				stack.unshift((x04_arg_1 / x04_arg_2) % 2n ** 256n)
 				break
+			case '5' == opcode:
+				// SDIV
+				let x05_arg_1 = stack.shift()
+				let x05_arg_2 = stack.shift()
+
+				if (x05_arg_2 == 0n) {
+					stack.unshift(0n)
+					break
+				}
+				if (x05_arg_1 < 0 && x05_arg_2 < 0) {
+					console.log('YESSS')
+					stack.unshift(-x05_arg_1 / -x05_arg_2)
+					break
+				}
+
+				stack.unshift((x05_arg_1 * 100n) / x05_arg_2 / 100n)
+				// IN PROGRESS
+				break
+
 			case '6' == opcode:
 				// MOD
 				let x06_arg_1 = stack.shift()
@@ -114,7 +134,17 @@ function evm(code) {
 				let x0b_arg_1 = stack.shift()
 				let x0b_arg_2 = stack.shift()
 
-				stack.unshift(x0b_arg_2 >> x0b_arg_1)
+				let sign = x0b_arg_2.toString(2).padStart(8, 0)[0]
+
+				if (sign === '0') {
+					// positive
+					stack.unshift(x0b_arg_2 >> x0b_arg_1)
+					break
+				}
+
+				// negative
+				stack.unshift(x0b_arg_2 | ((2n ** 256n - 1n) << (x0b_arg_1 * 8n)))
+
 				break
 
 			case '33' == opcode:
