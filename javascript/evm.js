@@ -21,7 +21,7 @@ function evm(code) {
 
 	while (pc < code.length) {
 		let opcode = code[pc].toString(16)
-		console.log('OPCODE23: ', opcode)
+		// console.log('OPCODE23: ', opcode)
 
 		pc++
 		switch (true) {
@@ -29,6 +29,7 @@ function evm(code) {
 			case '0' == opcode:
 				// STOP
 				return { success: true, stack }
+
 			case '1' == opcode:
 				// ADD
 				let x01_arg_1 = stack.shift()
@@ -38,6 +39,7 @@ function evm(code) {
 
 				stack.unshift(toStack)
 				break
+
 			case '2' == opcode:
 				// MUL
 				let x02_arg_1 = stack.shift()
@@ -45,6 +47,7 @@ function evm(code) {
 
 				stack.unshift((x02_arg_1 * x02_arg_2) % 2n ** 256n)
 				break
+
 			case '3' == opcode:
 				// SUB
 				let x03_arg_1 = stack.shift()
@@ -57,6 +60,7 @@ function evm(code) {
 
 				stack.unshift((x03_arg_1 - x03_arg_2) % 2n ** 256n)
 				break
+
 			case '4' == opcode:
 				// DIV
 				let x04_arg_1 = stack.shift()
@@ -68,6 +72,7 @@ function evm(code) {
 				}
 				stack.unshift((x04_arg_1 / x04_arg_2) % 2n ** 256n)
 				break
+
 			case '5' == opcode:
 				// SDIV
 				let x05_arg_1 = stack.shift()
@@ -77,13 +82,19 @@ function evm(code) {
 					stack.unshift(0n)
 					break
 				}
-				if (x05_arg_1 < 0 && x05_arg_2 < 0) {
-					console.log('YESSS')
-					stack.unshift(-x05_arg_1 / -x05_arg_2)
-					break
-				}
 
-				stack.unshift((x05_arg_1 * 100n) / x05_arg_2 / 100n)
+				console.log('___________________________')
+				console.log('x05_arg_1: ', x05_arg_1)
+				console.log('x05_arg_1_bin: ', x05_arg_1.toString(2))
+
+				console.log('x05_arg_2: ', x05_arg_2)
+				console.log('x05_arg_2_bin: ', x05_arg_2.toString(2))
+				// console.log('TEST: ', -15n / -3n)
+
+				console.log('x05_arg_1.toString(2) / x05_arg_2.toString(2)')
+				console.log(x05_arg_1.toString(2) / x05_arg_2.toString(2))
+
+				stack.unshift(x05_arg_1.toString(2) / x05_arg_2.toString(2))
 				// IN PROGRESS
 				break
 
@@ -98,6 +109,7 @@ function evm(code) {
 				}
 				stack.unshift(x06_arg_1 % x06_arg_2)
 				break
+
 			case '8' == opcode:
 				// ADDMOD
 				let x08_arg_1 = stack.shift()
@@ -110,6 +122,7 @@ function evm(code) {
 				}
 				stack.unshift((x08_arg_1 + x08_arg_2) % x08_arg_3)
 				break
+
 			case '9' == opcode:
 				// MULMOD
 				let x09_arg_1 = stack.shift()
@@ -122,6 +135,7 @@ function evm(code) {
 				}
 				stack.unshift((x09_arg_1 * x09_arg_2) % x09_arg_3)
 				break
+
 			case 'a' == opcode:
 				// EXP
 				let x0a_arg_1 = stack.shift()
@@ -129,6 +143,7 @@ function evm(code) {
 
 				stack.unshift(x0a_arg_1 ** x0a_arg_2 % 2n ** 256n)
 				break
+
 			case 'b' == opcode:
 				// SIGNEXTEND
 				let x0b_arg_1 = stack.shift()
